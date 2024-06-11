@@ -1,11 +1,10 @@
-// app/page.tsx
 "use client";
 
 import React from "react";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
-import { SearchIcon } from "@nextui-org/shared-icons";
+import {EyeFilledIcon, EyeSlashFilledIcon, SearchIcon} from "@nextui-org/shared-icons";
 import { Button } from "@nextui-org/button";
 import { Slider } from "@nextui-org/slider";
 import { Divider, Link, Image } from "@nextui-org/react";
@@ -14,12 +13,58 @@ import { VolumeLowIcon } from "../../Icons/VolumeLowIcon";
 import { Play, SkipForward, SkipBack } from 'lucide-react';
 import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/modal";
 
-export default function App() {
+export default function App()
+{
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [isVisible, setIsVisible] = React.useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
+
   return (
       <div className="flex w-full flex-col">
         <header style={{ display: 'flex', justifyContent: 'space-between', padding: 20 }}>
           <h1>Plapy</h1>
+          <Button onPress={onOpen}>Server Settings</Button>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                    <ModalBody>
+                      <Input type="email" placeholder="Enter the API URL" />
+                      <Input type="email" placeholder="Enter your UserID" />
+                      <Input type="email" placeholder="Enter the channelID of the music commands channel" />
+                      <Input type="email" placeholder="Enter the guildID of your server" />
+                      <Input
+                          variant="bordered"
+                          placeholder="Enter API Key"
+                          endContent={
+                            <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                              {isVisible ? (
+                                  <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                  <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
+                          type={isVisible ? "text" : "password"}
+                          className="max-w-xs"
+                      />
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="danger" variant="light" onPress={onClose}>
+                        Close
+                      </Button>
+                      <Button color="primary" onPress={onClose}>
+                        Action
+                      </Button>
+                    </ModalFooter>
+                  </>
+              )}
+            </ModalContent>
+          </Modal>
           <SignedIn>
             <UserButton />
           </SignedIn>
@@ -155,3 +200,4 @@ export default function App() {
       </div>
   );
 }
+
