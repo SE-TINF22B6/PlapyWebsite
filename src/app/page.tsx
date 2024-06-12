@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { Tab, Tabs } from "@nextui-org/tabs";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
@@ -10,7 +10,7 @@ import { Slider } from "@nextui-org/slider";
 import { Divider, Image, Link, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { VolumeHighIcon } from '../../Icons/VolumeHighIcon';
 import { VolumeLowIcon } from "../../Icons/VolumeLowIcon";
-import { Pause, SettingsIcon, SkipBack, SkipForward } from 'lucide-react';
+import { Pause, SettingsIcon, RefreshCcw, SkipForward } from 'lucide-react';
 import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
 import {
@@ -50,7 +50,7 @@ export default function App() {
     };
 
 
-    const [volume, setVolume] = useState(50);
+    const [volume, setVolume] = useState(10);
 
     const setVolumeApi = async (newVolume: any) => {
         setApiVolume(newVolume).then(r => console.log(r));
@@ -63,9 +63,15 @@ export default function App() {
         debouncedSetVolumeApi(newVolume);
     };
 
-    let nowPlaying = getNowPlaying(apiConfig.guildId).then(r => console.log(r));
-    let nowPlayingTitle = getNowPlayingTitle();
-    let nowPlayingThumbnail = getNowPlayingThumbnail();
+    const [nowPlayingTitle, setNowPlayingTitle] = useState(getNowPlayingTitle());
+    const [nowPlayingThumbnail, setNowPlayingThumbnail] = useState(getNowPlayingThumbnail());
+    const refreshNowPlaying = () => {
+        getNowPlaying(apiConfig.guildId).then(r => {
+            console.log(r)
+            setNowPlayingTitle(getNowPlayingTitle());
+            setNowPlayingThumbnail(getNowPlayingThumbnail());
+        });
+    };
 
     return (
         <div className="dark text-foreground bg-background">
@@ -156,7 +162,8 @@ export default function App() {
                                                     height={200}
                                                     radius="sm"
                                                 />
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col"
+                                                     style={{wordBreak: 'break-word', maxWidth: '400px'}}>
                                                     <p className="text-md">{nowPlayingTitle}</p>
                                                 </div>
                                             </CardHeader>
@@ -166,11 +173,14 @@ export default function App() {
 
                                     <div
                                         className="flex w-full flex-wrap md:flex-nowrap gap-2 items-center justify-center">
-                                        <Button color="primary" style={{width: '30%'}}>
-                                            <Pause onClick={stopMusic}/>
+                                        <Button color="primary" style={{width: '30%'}} onPress={refreshNowPlaying}>
+                                            <RefreshCcw />
                                         </Button>
-                                        <Button color="primary" style={{width: '30%'}}>
-                                            <SkipForward onClick={skipMusic}/>
+                                        <Button color="primary" style={{width: '30%'}} onPress={stopMusic}>
+                                            <Pause />
+                                        </Button>
+                                        <Button color="primary" style={{width: '30%'}} onPress={skipMusic}>
+                                            <SkipForward />
                                         </Button>
                                     </div>
 
@@ -261,9 +271,14 @@ export default function App() {
                         <CardBody className="justify-center" style={{width: '60vw', marginLeft: '500px'}}>
                             <div style={{width: '800px'}}>
                                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname"/>
+                                    <Input value={apiConfig.songQuery}
+                                           label="Play Song"
+                                           onChange={(e) => handleInputChange('songQuery', e.target.value)} type="text"
+                                           placeholder="Enter URL or Songname"/>
 
-                                    <Button color="primary">
+                                    <Button color="primary" onPress={() => {
+                                        playMusic(apiConfig.songQuery).then(r => console.log(r));}
+                                    }>
                                         Play
                                     </Button>
                                 </div>

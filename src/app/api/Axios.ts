@@ -6,7 +6,8 @@ export class ApiConfig {
     userId: string = "289527965484711939";
     channelId: string = "832971631466250260";
     guildId: string = "598975996871311402";
-    apiKey: string = "d34da5660edde044538068cf58c63fded0bcc920";
+    apiKey: string = "";
+    songQuery: string = "https://youtu.be/C3GouGa0noM?si=oJUe1uoPpRIdy2B8";
 }
 
 let nowPlaying: string = "Nothing Playing";
@@ -18,8 +19,6 @@ export function getNowPlayingTitle(){
 export function getNowPlayingThumbnail(){
     return thumbnailUrl;
 }
-
-
 
 let apiClient = axios.create({
     baseURL: "",
