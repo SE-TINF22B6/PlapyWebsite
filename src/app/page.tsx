@@ -168,34 +168,34 @@ export default function App()
                       </TableHeader>
                       <TableBody>
                         <TableRow key="1">
-                          <TableCell>Tony Reichert</TableCell>
-                          <TableCell>CEO</TableCell>
-                          <TableCell>Active</TableCell>
-                          <TableCell>Active</TableCell>
+                          <TableCell>Title 1</TableCell>
+                          <TableCell>Artist 1</TableCell>
+                          <TableCell>Album 1</TableCell>
+                          <TableCell>URL</TableCell>
                         </TableRow>
                         <TableRow key="2">
-                          <TableCell>Zoey Lang</TableCell>
-                          <TableCell>Technical Lead</TableCell>
-                          <TableCell>Paused</TableCell>
-                          <TableCell>Active</TableCell>
+                          <TableCell>Title 2</TableCell>
+                          <TableCell>Artist 2</TableCell>
+                          <TableCell>Album 2</TableCell>
+                          <TableCell>URL</TableCell>
                         </TableRow>
                         <TableRow key="3">
-                          <TableCell>Jane Fisher</TableCell>
-                          <TableCell>Senior Developer</TableCell>
-                          <TableCell>Active</TableCell>
-                          <TableCell>Active</TableCell>
+                          <TableCell>Title 3</TableCell>
+                          <TableCell>Artist 3</TableCell>
+                          <TableCell>Album 3</TableCell>
+                          <TableCell>URL</TableCell>
                         </TableRow>
                         <TableRow key="4">
-                          <TableCell>William Howard</TableCell>
-                          <TableCell>Community Manager</TableCell>
-                          <TableCell>Vacation</TableCell>
-                          <TableCell>Active</TableCell>
+                          <TableCell>Title 4</TableCell>
+                          <TableCell>Artist 4</TableCell>
+                          <TableCell>Album 4</TableCell>
+                          <TableCell>URL</TableCell>
                         </TableRow>
                         <TableRow key="5">
-                          <TableCell>William Howard</TableCell>
-                          <TableCell>Community Manager</TableCell>
-                          <TableCell>Vacation</TableCell>
-                          <TableCell>Active</TableCell>
+                          <TableCell>Title 5</TableCell>
+                          <TableCell>Artist 5</TableCell>
+                          <TableCell>Album 5</TableCell>
+                          <TableCell>URL</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>
@@ -207,36 +207,38 @@ export default function App()
 
 
           <Tab key="songs" title="Songs">
-    <Card>
-      <CardBody>
-        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-          <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname"/>
-        </div>
-        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-          <Button color="primary">
-            Play
-          </Button>
-        </div>
-      </CardBody>
-    </Card>
-    <Card>
-      <CardBody>
-        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-          <Input type="addsong" label="Add Song to queue" placeholder="Enter URL or Songname"/>
-        </div>
-        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-          <Button color="primary">
-            Add
-          </Button>
-        </div>
-      </CardBody>
+            <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
+            <CardBody>
+              <div style={{width:'800px'}}>
+                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                  <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname"/>
+                </div>
+                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                  <Button color="primary">
+                    Play
+                  </Button>
+                </div>
+              </div>
+
+              <div style={{width:'800px'}}>
+                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                  <Input type="addsong" label="Add Song to queue" placeholder="Enter URL or Songname"/>
+                </div>
+                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                  <Button color="primary">
+                    Add
+                  </Button>
+                </div>
+              </div>
+            </CardBody>
             </Card>
+
           </Tab>
           <Tab key="playlists" title="Playlists">
             <Card>
               <CardBody>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                  <Input type="playPlaylist" label="Play Playlist" placeholder="Enter URL" />
+                  <Input type="playPlaylist" label="Play Playlist" placeholder="Enter URL"/>
                 </div>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                   <Button color="primary">
