@@ -22,6 +22,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@
 import localFont from "next/dist/compiled/@next/font/dist/local";
 import NextImage from "next/image";
 import PlapyTitle from '../../Icons/Title.png'
+import Head from "next/head";
 
 
 export default function App()
@@ -32,9 +33,12 @@ export default function App()
 
 
   return (
+
       <div className="dark text-foreground bg-background">
+
         <header style={{display: 'flex', justifyContent: 'space-between', padding: 20}}>
-          <h1 className="text-4xl font-serif">
+
+          <h1 style={{fontStyle:'oblique', fontSize:'40px', fontWeight:'bold'}}>
             Plapy
           </h1>
             <Button onPress={onOpen}>
@@ -63,6 +67,7 @@ export default function App()
                               </button>
                             }
                             type={isVisible ? "text" : "password"}
+                            style={{color:'black'}}
                             className="max-w-xs"
                         />
                       </ModalBody>
@@ -90,7 +95,7 @@ export default function App()
         <Tabs aria-label="Options" color={"primary"} className="flex flex-col contain-size">
 
           <Tab key="home" title="Home" className="contain-size" >
-            <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
+            <Card className="contain-size" style={{ width: '99vw', height: '82vh' }}>
               <CardBody className="contain-size">
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 200 }}>
 
@@ -207,24 +212,22 @@ export default function App()
 
 
           <Tab key="songs" title="Songs">
-            <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
+            <Card className="contain-size" style={{ width: '99vw', height: '82vh' }}>
             <CardBody>
-              <div style={{width:'800px'}}>
+              <div style={{width:'800px', marginTop:'150px', marginLeft:'450px'}}>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                   <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname"/>
-                </div>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+
                   <Button color="primary">
                     Play
                   </Button>
                 </div>
               </div>
 
-              <div style={{width:'800px'}}>
+              <div style={{width:'800px', marginTop:'150px', marginLeft:'450px'}}>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                   <Input type="addsong" label="Add Song to queue" placeholder="Enter URL or Songname"/>
-                </div>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+
                   <Button color="primary">
                     Add
                   </Button>
@@ -235,12 +238,11 @@ export default function App()
 
           </Tab>
           <Tab key="playlists" title="Playlists">
-            <Card>
-              <CardBody>
+            <Card className="contain-size" style={{ width: '99vw', height: '82vh' }}>
+              <CardBody className="justify-center" style={{width:'40vw', marginLeft:'500px'}}>
                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                   <Input type="playPlaylist" label="Play Playlist" placeholder="Enter URL"/>
-                </div>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+
                   <Button color="primary">
                     Play
                   </Button>
@@ -249,9 +251,9 @@ export default function App()
             </Card>
           </Tab>
           <Tab key="search" title="Search">
-            <Card>
+            <Card className="contain-size" style={{ width: '99vw', height: '82vh' }}>
               <CardBody>
-                <div className="w-[340px] h-[240px] px-8 rounded-2xl flex justify-center items-center bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">
+                <div style={{gap:'50px'}}>
                   <Input
                       isClearable
                       radius="lg"
@@ -280,44 +282,47 @@ export default function App()
                         <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
                       }
                   />
+
+
+                <Table removeWrapper aria-label="Example static collection table" style={{marginTop:'30px'}}>
+                  <TableHeader>
+                    <TableColumn>Title</TableColumn>
+                    <TableColumn>Artist</TableColumn>
+                    <TableColumn>Album</TableColumn>
+                    <TableColumn>URL</TableColumn>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow key="1">
+                      <TableCell>Tony Reichert</TableCell>
+                      <TableCell>CEO</TableCell>
+                      <TableCell>Active</TableCell>
+                      <TableCell>Active</TableCell>
+                    </TableRow>
+                    <TableRow key="2">
+                      <TableCell>Zoey Lang</TableCell>
+                      <TableCell>Technical Lead</TableCell>
+                      <TableCell>Paused</TableCell>
+                      <TableCell>Active</TableCell>
+                    </TableRow>
+                    <TableRow key="3">
+                      <TableCell>Jane Fisher</TableCell>
+                      <TableCell>Senior Developer</TableCell>
+                      <TableCell>Active</TableCell>
+                      <TableCell>Active</TableCell>
+                    </TableRow>
+                    <TableRow key="4">
+                      <TableCell>William Howard</TableCell>
+                      <TableCell>Community Manager</TableCell>
+                      <TableCell>Vacation</TableCell>
+                      <TableCell>Active</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
                 </div>
               </CardBody>
             </Card>
 
-            <Table removeWrapper aria-label="Example static collection table">
-              <TableHeader>
-                <TableColumn>Title</TableColumn>
-                <TableColumn>Artist</TableColumn>
-                <TableColumn>Album</TableColumn>
-                <TableColumn>URL</TableColumn>
-              </TableHeader>
-              <TableBody>
-                <TableRow key="1">
-                  <TableCell>Tony Reichert</TableCell>
-                  <TableCell>CEO</TableCell>
-                  <TableCell>Active</TableCell>
-                  <TableCell>Active</TableCell>
-                </TableRow>
-                <TableRow key="2">
-                  <TableCell>Zoey Lang</TableCell>
-                  <TableCell>Technical Lead</TableCell>
-                  <TableCell>Paused</TableCell>
-                  <TableCell>Active</TableCell>
-                </TableRow>
-                <TableRow key="3">
-                  <TableCell>Jane Fisher</TableCell>
-                  <TableCell>Senior Developer</TableCell>
-                  <TableCell>Active</TableCell>
-                  <TableCell>Active</TableCell>
-                </TableRow>
-                <TableRow key="4">
-                  <TableCell>William Howard</TableCell>
-                  <TableCell>Community Manager</TableCell>
-                  <TableCell>Vacation</TableCell>
-                  <TableCell>Active</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+
           </Tab>
         </Tabs>
       </div>
