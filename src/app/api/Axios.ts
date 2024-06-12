@@ -9,8 +9,8 @@ export class ApiConfig {
     apiKey: string = "d34da5660edde044538068cf58c63fded0bcc920";
 }
 
-let nowPlaying: string = "Nothing";
-let thumbnailUrl: string = "https://i.imgur.com/8Xz1z8V.png";
+let nowPlaying: string = "Nothing Playing";
+let thumbnailUrl: string = "https://static.vecteezy.com/system/resources/previews/027/508/193/original/pause-button-icon-on-transparent-background-stop-icon-button-free-png.png";
 
 export function getNowPlayingTitle(){
     return nowPlaying;
