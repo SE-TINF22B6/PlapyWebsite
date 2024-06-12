@@ -2,12 +2,23 @@
 import axios, {AxiosError} from 'axios';
 
 export class ApiConfig {
-    baseUrl: string = "http://localhost:3000";
-    userId: string = "123456789";
-    channelId: string = "123456789";
-    guildId: string = "123456789";
-    apiKey: string = "123456789";
+    baseUrl: string = "http://plapy.studio";
+    userId: string = "289527965484711939";
+    channelId: string = "832971631466250260";
+    guildId: string = "598975996871311402";
+    apiKey: string = "d34da5660edde044538068cf58c63fded0bcc920";
 }
+
+let nowPlaying: string = "Nothing";
+let thumbnailUrl: string = "https://i.imgur.com/8Xz1z8V.png";
+
+export function getNowPlayingTitle(){
+    return nowPlaying;
+}
+export function getNowPlayingThumbnail(){
+    return thumbnailUrl;
+}
+
 
 
 let apiClient = axios.create({
@@ -30,6 +41,28 @@ export const updateApiClient = (baseUrl: string, userId: string, channelId: stri
         channelid: channelId,
     },
 });
+}
+
+export async function getNowPlaying(guildId: string) {
+    try {
+        const response = await apiClient.get('/now-playing/' + guildId);
+        console.log(response.data);
+        nowPlaying = response.data.title;
+        let video_id = response.data.url.split('v=')[1];
+        let ampersandPosition = video_id.indexOf('&');
+        if (ampersandPosition !== -1) {
+            video_id = video_id.substring(0, ampersandPosition);
+        }
+        thumbnailUrl = 'https://img.youtube.com/vi/' + video_id + '/0.jpg';
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error(error.response ? error.response.data : error.message);
+        } else {
+            console.error("Unexpected error", error);
+        }
+    }
+
+
 }
 
 // Function to stop the music

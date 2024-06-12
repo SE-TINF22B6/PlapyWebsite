@@ -10,11 +10,20 @@ import { Slider } from "@nextui-org/slider";
 import { Divider, Image, Link, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { VolumeHighIcon } from '../../Icons/VolumeHighIcon';
 import { VolumeLowIcon } from "../../Icons/VolumeLowIcon";
-import { Play, SettingsIcon, SkipBack, SkipForward } from 'lucide-react';
+import { Pause, SettingsIcon, SkipBack, SkipForward } from 'lucide-react';
 import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
-import { ApiConfig, updateApiClient, skipMusic, stopMusic, setVolume as setApiVolume, playMusic} from "@/app/api/Axios";
+import {
+    ApiConfig,
+    updateApiClient,
+    skipMusic,
+    stopMusic,
+    setVolume as setApiVolume,
+    playMusic,
+    getNowPlaying,
+    getNowPlayingTitle, getNowPlayingThumbnail
+} from "@/app/api/Axios";
 import {debounce} from "@tanstack/virtual-core";
 
 
@@ -44,6 +53,10 @@ export default function App() {
         setVolume(newVolume);
         debouncedSetVolumeApi(newVolume);
     };
+
+    let nowPlaying = getNowPlaying(apiConfig.guildId).then(r => console.log(r));
+    let nowPlayingTitle = getNowPlayingTitle();
+    let nowPlayingThumbnail = getNowPlayingThumbnail();
 
     return (
         <div className="dark text-foreground bg-background">
@@ -117,14 +130,13 @@ export default function App() {
                                             <CardHeader className="flex items-center gap-3">
                                                 <Image
                                                     alt="Song logo"
-                                                    src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+                                                    src={nowPlayingThumbnail}
                                                     width={40}
                                                     height={40}
                                                     radius="sm"
                                                 />
                                                 <div className="flex flex-col">
-                                                    <p className="text-md">Song Title</p>
-                                                    <p className="text-small text-default-500">Artist</p>
+                                                    <p className="text-md">{nowPlayingTitle}</p>
                                                 </div>
                                             </CardHeader>
                                             <Divider />
@@ -148,7 +160,7 @@ export default function App() {
                                             <SkipBack />
                                         </Button>
                                         <Button color="primary" style={{ width: '30%' }}>
-                                            <Play />
+                                            <Pause onClick={stopMusic} />
                                         </Button>
                                         <Button color="primary" style={{ width: '30%' }}>
                                             <SkipForward onClick={skipMusic}/>
