@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import {stopMusic, playMusic, skipMusic, setVolume} from "./api/Axios"
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
