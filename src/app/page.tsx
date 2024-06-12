@@ -13,7 +13,6 @@ import { VolumeLowIcon } from "../../Icons/VolumeLowIcon";
 import { Pause, SettingsIcon, SkipBack, SkipForward } from 'lucide-react';
 import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
 import {
     ApiConfig,
     updateApiClient,
@@ -25,6 +24,16 @@ import {
     getNowPlayingTitle, getNowPlayingThumbnail
 } from "@/app/api/Axios";
 import {debounce} from "@tanstack/virtual-core";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/modal";
+import {useTheme} from 'next-themes';
+import theme from "tailwindcss/defaultTheme";
+import ReactDOM from "react-dom/client";
+import {NextUIProvider} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import localFont from "next/dist/compiled/@next/font/dist/local";
+import NextImage from "next/image";
+import PlapyTitle from '../../Icons/Title.png'
+import Head from "next/head";
 
 
 export default function App() {
@@ -41,12 +50,13 @@ export default function App() {
         }));
     };
 
+
     const [volume, setVolume] = useState(50);
 
     const setVolumeApi = async (newVolume: any) => {
         setApiVolume(newVolume).then(r => console.log(r));
     };
-
+  
     const debouncedSetVolumeApi = useCallback(debounce(setVolumeApi, 500), []);
 
     const handleVolumeChange = (newVolume: any) => {
@@ -154,6 +164,7 @@ export default function App() {
                                     </div>
 
 
+
                                     <div
                                         className="flex w-full flex-wrap md:flex-nowrap gap-2 items-center justify-center">
                                         <Button color="primary" style={{ width: '30%' }}>
@@ -239,8 +250,6 @@ export default function App() {
                         </CardBody>
                     </Card>
                 </Tab>
-
-
                 <Tab key="songs" title="Songs">
                     <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
                         <CardBody>
@@ -254,7 +263,6 @@ export default function App() {
                                     </Button>
                                 </div>
                             </div>
-
                             <div style={{ width: '800px' }}>
                                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                                     <Input type="addsong" label="Add Song to queue"
