@@ -29,7 +29,6 @@ import {useTheme} from 'next-themes';
 import theme from "tailwindcss/defaultTheme";
 import ReactDOM from "react-dom/client";
 import {NextUIProvider} from "@nextui-org/react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 import localFont from "next/dist/compiled/@next/font/dist/local";
 import NextImage from "next/image";
 import PlapyTitle from '../../Icons/Title.png'
@@ -70,33 +69,44 @@ export default function App() {
 
     return (
         <div className="dark text-foreground bg-background">
-            <header style={{ display: 'flex', justifyContent: 'space-between', padding: 20 }}>
-                <h1 className="text-4xl font-serif">
+            <header style={{display: 'flex', justifyContent: 'space-between', padding: 20}}>
+                <h1 style={{fontStyle: 'oblique', fontSize: '40px', fontWeight: 'bold'}}>
                     Plapy
                 </h1>
                 <Button onPress={onOpen}>
-                    <SettingsIcon />
+                    <SettingsIcon/>
                 </Button>
                 <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-                    <ModalContent style={{ display: 'flex', justifyContent: 'space-between', padding: 20 }}>
+                    <ModalContent style={{display: 'flex', justifyContent: 'space-between', padding: 20}}>
                         {(onClose) => (
                             <>
                                 <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
                                 <ModalBody>
-                                    <Input value={apiConfig.baseUrl} onChange={(e) => handleInputChange('baseUrl', e.target.value)} type="text" placeholder="Enter the API URL" />
-                                    <Input value={apiConfig.userId} onChange={(e) => handleInputChange('userId', e.target.value)} type="text" placeholder="Enter your UserID" />
-                                    <Input value={apiConfig.channelId} onChange={(e) => handleInputChange('channelId', e.target.value)} type="text" placeholder="Enter the channelID of the music commands channel" />
-                                    <Input value={apiConfig.guildId} onChange={(e) => handleInputChange('guildId', e.target.value)} type="text" placeholder="Enter the guildID of your server" />
+                                    <Input value={apiConfig.baseUrl}
+                                           onChange={(e) => handleInputChange('baseUrl', e.target.value)} type="text"
+                                           placeholder="Enter the API URL"/>
+                                    <Input value={apiConfig.userId}
+                                           onChange={(e) => handleInputChange('userId', e.target.value)} type="text"
+                                           placeholder="Enter your UserID"/>
+                                    <Input value={apiConfig.channelId}
+                                           onChange={(e) => handleInputChange('channelId', e.target.value)} type="text"
+                                           placeholder="Enter the channelID of the music commands channel"/>
+                                    <Input value={apiConfig.guildId}
+                                           onChange={(e) => handleInputChange('guildId', e.target.value)} type="text"
+                                           placeholder="Enter the guildID of your server"/>
                                     <Input
                                         value={apiConfig.apiKey}
                                         onChange={(e) => handleInputChange('apiKey', e.target.value)}
                                         placeholder="Enter API Key"
                                         endContent={
-                                            <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                                            <button className="focus:outline-none" type="button"
+                                                    onClick={toggleVisibility}>
                                                 {isVisible ? (
-                                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                                    <EyeSlashFilledIcon
+                                                        className="text-2xl text-default-400 pointer-events-none"/>
                                                 ) : (
-                                                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                                    <EyeFilledIcon
+                                                        className="text-2xl text-default-400 pointer-events-none"/>
                                                 )}
                                             </button>
                                         }
@@ -110,7 +120,8 @@ export default function App() {
                                     </Button>
                                     <Button color="primary" onPress={() => {
                                         updateApiClient(apiConfig.baseUrl, apiConfig.userId, apiConfig.channelId, apiConfig.guildId, apiConfig.apiKey);
-                                        onClose(); }}>
+                                        onClose();
+                                    }}>
                                         Confirm
                                     </Button>
                                 </ModalFooter>
@@ -120,60 +131,45 @@ export default function App() {
                 </Modal>
 
                 <SignedIn>
-                    <UserButton />
+                    <UserButton/>
                 </SignedIn>
                 <SignedOut>
-                    <SignInButton />
+                    <SignInButton/>
                 </SignedOut>
             </header>
 
             <Tabs aria-label="Options" color={"primary"} className="flex flex-col contain-size">
 
                 <Tab key="home" title="Home" className="contain-size">
-                    <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
+                    <Card className="contain-size" style={{width: '99vw', height: '82vh'}}>
                         <CardBody className="contain-size">
-                            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 200 }}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', gap: 200}}>
 
-                                <div className="flex flex-col flex-grow" style={{ gap: '60px' }}>
+                                <div className="flex flex-col flex-grow" style={{gap: '60px'}}>
                                     <div className="justify-center">
-                                        <Card className="mb-4" style={{ height: '250px', marginTop: '30px' }}>
+                                        <Card className="mb-4" style={{height: '250px', marginTop: '30px'}}>
                                             <CardHeader className="flex items-center gap-3">
                                                 <Image
                                                     alt="Song logo"
                                                     src={nowPlayingThumbnail}
-                                                    width={40}
-                                                    height={40}
+                                                    width={200}
+                                                    height={200}
                                                     radius="sm"
                                                 />
                                                 <div className="flex flex-col">
                                                     <p className="text-md">{nowPlayingTitle}</p>
                                                 </div>
                                             </CardHeader>
-                                            <Divider />
-                                            <CardBody>
-                                                <p>Next Song Title</p>
-                                            </CardBody>
-                                            <Divider />
-                                            <CardFooter>
-                                                <Link isExternal showAnchorIcon
-                                                      href="https://github.com/nextui-org/nextui">
-                                                    Song URL
-                                                </Link>
-                                            </CardFooter>
                                         </Card>
                                     </div>
 
 
-
                                     <div
                                         className="flex w-full flex-wrap md:flex-nowrap gap-2 items-center justify-center">
-                                        <Button color="primary" style={{ width: '30%' }}>
-                                            <SkipBack />
+                                        <Button color="primary" style={{width: '30%'}}>
+                                            <Pause onClick={stopMusic}/>
                                         </Button>
-                                        <Button color="primary" style={{ width: '30%' }}>
-                                            <Pause onClick={stopMusic} />
-                                        </Button>
-                                        <Button color="primary" style={{ width: '30%' }}>
+                                        <Button color="primary" style={{width: '30%'}}>
                                             <SkipForward onClick={skipMusic}/>
                                         </Button>
                                     </div>
@@ -183,8 +179,8 @@ export default function App() {
                                             aria-label="Volume"
                                             size="lg"
                                             color="success"
-                                            startContent={<VolumeLowIcon className="text-2xl" />}
-                                            endContent={<VolumeHighIcon className="text-2xl" />}
+                                            startContent={<VolumeLowIcon className="text-2xl"/>}
+                                            endContent={<VolumeHighIcon className="text-2xl"/>}
                                             className="max-w"
                                             value={volume}
                                             onChange={handleVolumeChange}
@@ -194,16 +190,16 @@ export default function App() {
 
                                     <div
                                         className="flex w-full flex-wrap md:flex-nowrap gap-2 items-center justify-center"
-                                        style={{ marginTop: '50px' }}>
+                                        style={{marginTop: '50px'}}>
                                         <Button color="primary" className="mt-4"
-                                                style={{ width: '200px', height: '80px' }}>
+                                                style={{width: '200px', height: '80px'}}>
                                             Radio
                                         </Button>
                                     </div>
 
                                 </div>
 
-                                <div className="flex flex-col flex-grow" style={{ gap: '20px' }}>
+                                <div className="flex flex-col flex-grow" style={{gap: '20px'}}>
                                     <h1 className="mb-4">Queue</h1>
                                     <Table removeWrapper aria-label="Example static collection table">
                                         <TableHeader>
@@ -217,31 +213,41 @@ export default function App() {
                                                 <TableCell>Title 1</TableCell>
                                                 <TableCell>Artist 1</TableCell>
                                                 <TableCell>Album 1</TableCell>
-                                                <TableCell>URL</TableCell>
+                                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                                     URL
+                                                </Link></TableCell>
                                             </TableRow>
                                             <TableRow key="2">
                                                 <TableCell>Title 2</TableCell>
                                                 <TableCell>Artist 2</TableCell>
                                                 <TableCell>Album 2</TableCell>
-                                                <TableCell>URL</TableCell>
+                                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                                    URL
+                                                </Link></TableCell>
                                             </TableRow>
                                             <TableRow key="3">
                                                 <TableCell>Title 3</TableCell>
                                                 <TableCell>Artist 3</TableCell>
                                                 <TableCell>Album 3</TableCell>
-                                                <TableCell>URL</TableCell>
+                                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                                     URL
+                                                </Link></TableCell>
                                             </TableRow>
                                             <TableRow key="4">
                                                 <TableCell>Title 4</TableCell>
                                                 <TableCell>Artist 4</TableCell>
                                                 <TableCell>Album 4</TableCell>
-                                                <TableCell>URL</TableCell>
+                                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                                     URL
+                                                </Link></TableCell>
                                             </TableRow>
                                             <TableRow key="5">
                                                 <TableCell>Title 5</TableCell>
                                                 <TableCell>Artist 5</TableCell>
                                                 <TableCell>Album 5</TableCell>
-                                                <TableCell>URL</TableCell>
+                                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                                     URL
+                                                </Link></TableCell>
                                             </TableRow>
                                         </TableBody>
                                     </Table>
@@ -251,26 +257,14 @@ export default function App() {
                     </Card>
                 </Tab>
                 <Tab key="songs" title="Songs">
-                    <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
-                        <CardBody>
-                            <div style={{ width: '800px' }}>
+                    <Card className="contain-size" style={{width: '99vw', height: '82vh'}}>
+                        <CardBody className="justify-center" style={{width: '60vw', marginLeft: '500px'}}>
+                            <div style={{width: '800px'}}>
                                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname" />
-                                </div>
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                                    <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname"/>
+
                                     <Button color="primary">
                                         Play
-                                    </Button>
-                                </div>
-                            </div>
-                            <div style={{ width: '800px' }}>
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    <Input type="addsong" label="Add Song to queue"
-                                           placeholder="Enter URL or Songname" />
-                                </div>
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    <Button color="primary">
-                                        Add
                                     </Button>
                                 </div>
                             </div>
@@ -279,17 +273,16 @@ export default function App() {
 
                 </Tab>
                 <Tab key="playlists" title="Playlists">
-                    <Card>
-                        <CardBody>
-                            <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                <Input type="playPlaylist" label="Play Playlist" placeholder="Enter URL" />
-                            </div>
-                            <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                <Button color="primary">
-                                    Play
-                                </Button>
-                            </div>
-                        </CardBody>
+                    <Card className="contain-size" style={{width: '99vw', height: '82vh'}}>
+                        <CardBody className="justify-center" style={{width: '60vw', marginLeft: '500px'}}>
+                            <div className="flex w-full flex-wrap md:flex-nowrap gap-4" style={{ width: '800px' }}>
+                            <Input type="playPlaylist" label="Play Playlist" placeholder="Enter URL"/>
+
+                            <Button color="primary">
+                                Play
+                            </Button>
+        </div>
+</CardBody>
                     </Card>
                 </Tab>
                 <Tab key="search" title="Search">
@@ -330,7 +323,7 @@ export default function App() {
                         </CardBody>
                     </Card>
 
-                    <Table removeWrapper aria-label="Example static collection table">
+                    <Table removeWrapper aria-label="Example static collection table" style={{marginTop:"20px"}}>
                         <TableHeader>
                             <TableColumn>Title</TableColumn>
                             <TableColumn>Artist</TableColumn>
@@ -339,28 +332,44 @@ export default function App() {
                         </TableHeader>
                         <TableBody>
                             <TableRow key="1">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                                <TableCell>Active</TableCell>
-                                <TableCell>Active</TableCell>
+                                <TableCell>Title 1</TableCell>
+                                <TableCell>Artist 1</TableCell>
+                                <TableCell>Album 1</TableCell>
+                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                    URL
+                                </Link></TableCell>
                             </TableRow>
                             <TableRow key="2">
-                                <TableCell>Zoey Lang</TableCell>
-                                <TableCell>Technical Lead</TableCell>
-                                <TableCell>Paused</TableCell>
-                                <TableCell>Active</TableCell>
+                                <TableCell>Title 2</TableCell>
+                                <TableCell>Artist 2</TableCell>
+                                <TableCell>Album 2</TableCell>
+                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                     URL
+                                </Link></TableCell>
                             </TableRow>
                             <TableRow key="3">
-                                <TableCell>Jane Fisher</TableCell>
-                                <TableCell>Senior Developer</TableCell>
-                                <TableCell>Active</TableCell>
-                                <TableCell>Active</TableCell>
+                                <TableCell>Title 3</TableCell>
+                                <TableCell>Artist 3</TableCell>
+                                <TableCell>Album 3</TableCell>
+                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                     URL
+                                </Link></TableCell>
                             </TableRow>
                             <TableRow key="4">
-                                <TableCell>William Howard</TableCell>
-                                <TableCell>Community Manager</TableCell>
-                                <TableCell>Vacation</TableCell>
-                                <TableCell>Active</TableCell>
+                                <TableCell>Title 4</TableCell>
+                                <TableCell>Artist 4</TableCell>
+                                <TableCell>Album 4</TableCell>
+                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                    URL
+                                </Link></TableCell>
+                            </TableRow>
+                            <TableRow key="5">
+                                <TableCell>Title 5</TableCell>
+                                <TableCell>Artist 5</TableCell>
+                                <TableCell>Album 5</TableCell>
+                                <TableCell><Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                                    URL
+                                </Link></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
