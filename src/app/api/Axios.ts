@@ -1,6 +1,15 @@
 // Import Axios
 import axios, {AxiosError} from 'axios';
 
+export class ApiConfig {
+    baseUrl: string = "http://localhost:3000";
+    userId: string = "123456789";
+    channelId: string = "123456789";
+    guildId: string = "123456789";
+    apiKey: string = "123456789";
+}
+
+
 let apiClient = axios.create({
     baseURL: "",
     headers: {
@@ -29,7 +38,11 @@ export async function stopMusic() {
         const response = await apiClient.post('/stop');
         console.log(response.data);
     } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
+        if (axios.isAxiosError(error)) {
+            console.error(error.response ? error.response.data : error.message);
+        } else {
+            console.error("Unexpected error", error);
+        }
     }
 }
 
@@ -39,7 +52,11 @@ export async function skipMusic() {
         const response = await apiClient.post('/skip');
         console.log(response.data);
     } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
+        if (axios.isAxiosError(error)) {
+            console.error(error.response ? error.response.data : error.message);
+        } else {
+            console.error("Unexpected error", error);
+        }
     }
 }
 
@@ -53,7 +70,11 @@ export async function setVolume(volume: number) {
         });
         console.log(response.data);
     } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
+        if (axios.isAxiosError(error)) {
+            console.error(error.response ? error.response.data : error.message);
+        } else {
+            console.error("Unexpected error", error);
+        }
     }
 }
 
@@ -67,6 +88,10 @@ export async function playMusic(songName: string) {
         });
         console.log(response.data);
     } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
+        if (axios.isAxiosError(error)) {
+            console.error(error.response ? error.response.data : error.message);
+        } else {
+            console.error("Unexpected error", error);
+        }
     }
 }
