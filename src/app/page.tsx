@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {stopMusic, playMusic, skipMusic, setVolume} from "./api/Axios"
+import {stopMusic, playMusic, skipMusic, setVolume, updateApiClient} from './api/Axios'
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
@@ -23,6 +23,9 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@
 import localFont from "next/dist/compiled/@next/font/dist/local";
 import NextImage from "next/image";
 import PlapyTitle from '../../Icons/Title.png'
+import {onCloseMap} from "@react-aria/overlays/src/useCloseOnScroll";
+
+
 
 
 export default function App()
@@ -30,6 +33,15 @@ export default function App()
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const submit = (element: Window) => {
+  }
+  let apiUrl = ""
+  let userId = ""
+  let channelId = ""
+  let guildId = ""
+  let apiKey = ""
+
 
 
   return (
@@ -41,17 +53,18 @@ export default function App()
             <Button onPress={onOpen}>
               <SettingsIcon/>
             </Button>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} onSubmit={updateApiClient(apiUrl, userId, channelId, guildId, apiKey)}>
               <ModalContent style={{display: 'flex', justifyContent: 'space-between', padding: 20}}>
                 {(onClose) => (
                     <>
                       <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
                       <ModalBody>
-                        <Input type="email" placeholder="Enter the API URL"/>
-                        <Input type="email" placeholder="Enter your UserID"/>
-                        <Input type="email" placeholder="Enter the channelID of the music commands channel"/>
-                        <Input type="email" placeholder="Enter the guildID of your server"/>
+                        <Input content={apiUrl} type="text" placeholder="Enter the API URL"/>
+                        <Input content={userId} type="text" placeholder="Enter your UserID"/>
+                        <Input content={channelId} type="text" placeholder="Enter the channelID of the music commands channel"/>
+                        <Input content={guildId} type="text" placeholder="Enter the guildID of your server"/>
                         <Input
+                            content={apiKey}
                             variant="bordered"
                             placeholder="Enter API Key"
                             endContent={
@@ -72,7 +85,7 @@ export default function App()
                           Close
                         </Button>
                         <Button color="primary" onPress={onClose}>
-                          Action
+                          Confirm
                         </Button>
                       </ModalFooter>
                     </>
@@ -323,5 +336,7 @@ export default function App()
         </Tabs>
       </div>
   );
+
+
 }
 

@@ -1,25 +1,32 @@
 // Import Axios
-import {AxiosError} from "axios";
+import axios, {AxiosError} from 'axios';
 
-const axios = require('axios');
-
-// Base URL for your API
-const baseURL = 'http://yourapiurl.com';
-
-// Your API key
-const apiKey = 'your-api-key';
+let apiClient = axios.create({
+    baseURL: "",
+    headers: {
+        apiKey: "",
+        guildid: "",
+        userid: "",
+        channelid: "",
+    },
+})
+// Create an Axios instance
+export const updateApiClient = (baseUrl: string, userId: string, channelId: string, guildId: string, apiKey: string) => {
+    apiClient = axios.create({
+    baseURL: baseUrl,
+    headers: {
+        apiKey: apiKey,
+        guildid: guildId,
+        userid: userId,
+        channelid: channelId,
+    },
+});
+}
 
 // Function to stop the music
-export async function stopMusic(guildId: string, userId: string, channelId: string) {
+export async function stopMusic() {
     try {
-        const response = await axios.post(`${baseURL}/stop`, {}, {
-            headers: {
-                guildid: guildId,
-                userid: userId,
-                channelid: channelId,
-                'api-key': apiKey
-            },
-        });
+        const response = await apiClient.post('/stop');
         console.log(response.data);
     } catch (error) {
         console.error(error.response ? error.response.data : error.message);
@@ -27,16 +34,9 @@ export async function stopMusic(guildId: string, userId: string, channelId: stri
 }
 
 // Function to skip the current song
-export async function skipMusic(guildId: string, userId: string, channelId: string) {
+export async function skipMusic() {
     try {
-        const response = await axios.post(`${baseURL}/skip`, {}, {
-            headers: {
-                guildid: guildId,
-                userid: userId,
-                channelid: channelId,
-                'api-key': apiKey
-            },
-        });
+        const response = await apiClient.post('/skip');
         console.log(response.data);
     } catch (error) {
         console.error(error.response ? error.response.data : error.message);
@@ -44,15 +44,11 @@ export async function skipMusic(guildId: string, userId: string, channelId: stri
 }
 
 // Function to change the volume
-export async function setVolume(guildId: string, userId: string, channelId: string, volume: number) {
+export async function setVolume(volume: number) {
     try {
-        const response = await axios.post(`${baseURL}/volume`, {}, {
+        const response = await apiClient.post('/volume', {}, {
             headers: {
-                guildid: guildId,
-                userid: userId,
-                channelid: channelId,
-                volume: volume.toString(),
-                'api-key': apiKey
+                volume: volume,
             },
         });
         console.log(response.data);
@@ -62,15 +58,11 @@ export async function setVolume(guildId: string, userId: string, channelId: stri
 }
 
 // Function to play a song
-export async function playMusic(guildId : string, userId: string, channelId: string, songName: string) {
+export async function playMusic(songName: string) {
     try {
-        const response = await axios.post(`${baseURL}/play`, {}, {
+        const response = await apiClient.post('/play', {}, {
             headers: {
-                guildid: guildId,
-                userid: userId,
-                channelid: channelId,
                 song: songName,
-                'api-key': apiKey
             },
         });
         console.log(response.data);
@@ -78,9 +70,3 @@ export async function playMusic(guildId : string, userId: string, channelId: str
         console.error(error.response ? error.response.data : error.message);
     }
 }
-
-// Example usage:
-// stopMusic('your-guild-id', 'your-user-id', 'your-channel-id');
-// skipMusic('your-guild-id', 'your-user-id', 'your-channel-id');
-// setVolume('your-guild-id', 'your-user-id', 'your-channel-id', 50);
-// playMusic('your-guild-id', 'your-user-id', 'your-channel-id', 'song name or URL');
