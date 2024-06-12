@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
@@ -10,10 +10,19 @@ import { Slider } from "@nextui-org/slider";
 import { Divider, Link, Image } from "@nextui-org/react";
 import { VolumeHighIcon } from '../../Icons/VolumeHighIcon';
 import { VolumeLowIcon } from "../../Icons/VolumeLowIcon";
-import { Play, SkipForward, SkipBack } from 'lucide-react';
+import {Play, SkipForward, SkipBack, SettingsIcon} from 'lucide-react';
 import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/modal";
+import {useTheme} from 'next-themes';
+import theme from "tailwindcss/defaultTheme";
+import ReactDOM from "react-dom/client";
+import {NextUIProvider} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import localFont from "next/dist/compiled/@next/font/dist/local";
+import NextImage from "next/image";
+import PlapyTitle from '../../Icons/Title.png'
+
 
 export default function App()
 {
@@ -23,127 +32,204 @@ export default function App()
 
 
   return (
-      <div className="flex w-full flex-col">
-        <header style={{ display: 'flex', justifyContent: 'space-between', padding: 20 }}>
-          <h1>Plapy</h1>
-          <Button onPress={onOpen}>Server Settings</Button>
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-            <ModalContent>
-              {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
-                    <ModalBody>
-                      <Input type="email" placeholder="Enter the API URL" />
-                      <Input type="email" placeholder="Enter your UserID" />
-                      <Input type="email" placeholder="Enter the channelID of the music commands channel" />
-                      <Input type="email" placeholder="Enter the guildID of your server" />
-                      <Input
-                          variant="bordered"
-                          placeholder="Enter API Key"
-                          endContent={
-                            <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                              {isVisible ? (
-                                  <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                              ) : (
-                                  <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                              )}
-                            </button>
-                          }
-                          type={isVisible ? "text" : "password"}
-                          className="max-w-xs"
-                      />
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Close
-                      </Button>
-                      <Button color="primary" onPress={onClose}>
-                        Action
-                      </Button>
-                    </ModalFooter>
-                  </>
-              )}
-            </ModalContent>
-          </Modal>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
+      <div className="dark text-foreground bg-background">
+        <header style={{display: 'flex', justifyContent: 'space-between', padding: 20}}>
+          <h1 className="text-4xl font-serif">
+            Plapy
+          </h1>
+            <Button onPress={onOpen}>
+              <SettingsIcon/>
+            </Button>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+              <ModalContent style={{display: 'flex', justifyContent: 'space-between', padding: 20}}>
+                {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                      <ModalBody>
+                        <Input type="email" placeholder="Enter the API URL"/>
+                        <Input type="email" placeholder="Enter your UserID"/>
+                        <Input type="email" placeholder="Enter the channelID of the music commands channel"/>
+                        <Input type="email" placeholder="Enter the guildID of your server"/>
+                        <Input
+                            variant="bordered"
+                            placeholder="Enter API Key"
+                            endContent={
+                              <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                                {isVisible ? (
+                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none"/>
+                                ) : (
+                                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none"/>
+                                )}
+                              </button>
+                            }
+                            type={isVisible ? "text" : "password"}
+                            className="max-w-xs"
+                        />
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="danger" variant="light" onPress={onClose}>
+                          Close
+                        </Button>
+                        <Button color="primary" onPress={onClose}>
+                          Action
+                        </Button>
+                      </ModalFooter>
+                    </>
+                )}
+              </ModalContent>
+            </Modal>
+
+            <SignedIn>
+              <UserButton/>
+            </SignedIn>
+            <SignedOut>
+              <SignInButton/>
+            </SignedOut>
         </header>
 
-        <Tabs aria-label="Options">
-          <Tab key="home" title="Home">
-            <Card>
-              <CardBody>
-                <div>
-                  <Card className="max-w-[400px]">
-                    <CardHeader className="flex gap-3">
-                      <Image
-                          alt="Song logo"
-                          height={40}
-                          radius="sm"
-                          src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-                          width={40}
+        <Tabs aria-label="Options" color={"primary"} className="flex flex-col contain-size">
+
+          <Tab key="home" title="Home" className="contain-size" >
+            <Card className="contain-size" style={{ width: '99vw', height: '83vh' }}>
+              <CardBody className="contain-size">
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 200 }}>
+
+                  <div className="flex flex-col flex-grow" style={{ gap: '60px' }}>
+                    <div className="justify-center">
+                      <Card className="mb-4"  style={{height:'250px', marginTop:'30px'}}>
+                        <CardHeader className="flex items-center gap-3">
+                          <Image
+                              alt="Song logo"
+                              src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+                              width={40}
+                              height={40}
+                              radius="sm"
+                          />
+                          <div className="flex flex-col">
+                            <p className="text-md">Song Title</p>
+                            <p className="text-small text-default-500">Artist</p>
+                          </div>
+                        </CardHeader>
+                        <Divider />
+                        <CardBody>
+                          <p>Next Song Title</p>
+                        </CardBody>
+                        <Divider />
+                        <CardFooter>
+                          <Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
+                            Song URL
+                          </Link>
+                        </CardFooter>
+                      </Card>
+                    </div>
+
+
+                    <div className="flex w-full flex-wrap md:flex-nowrap gap-2 items-center justify-center">
+                      <Button color="primary" style={{width:'30%'}}>
+                        <SkipBack />
+                      </Button>
+                      <Button color="primary" style={{width:'30%'}}>
+                        <Play />
+                      </Button>
+                      <Button color="primary" style={{width:'30%'}}>
+                        <SkipForward />
+                      </Button>
+                    </div>
+
+                    <div className="mt-4">
+                      <Slider
+                          aria-label="Volume"
+                          size="lg"
+                          color="success"
+                          startContent={<VolumeLowIcon className="text-2xl" />}
+                          endContent={<VolumeHighIcon className="text-2xl" />}
+                          className="max-w"
+                          defaultValue={50}
+                          radius="full"
                       />
-                      <div className="flex flex-col">
-                        <p className="text-md">Songtitle</p>
-                        <p className="text-small text-default-500">Artist</p>
-                      </div>
-                    </CardHeader>
-                    <Divider />
-                    <CardBody>
-                      <p>Songtitle of next Song</p>
-                    </CardBody>
-                    <Divider />
-                    <CardFooter>
-                      <Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
-                        Youtube URL
-                      </Link>
-                    </CardFooter>
-                  </Card>
+                    </div>
+
+                    <div className="flex w-full flex-wrap md:flex-nowrap gap-2 items-center justify-center" style={{marginTop:'50px'}}>
+                      <Button color="primary" className="mt-4" style={{width:'200px', height:'80px'}}>
+                        Radio
+                      </Button>
+                    </div>
+
+                  </div>
+
+                  <div className="flex flex-col flex-grow" style={{ gap: '20px' }}>
+                    <h1 className="mb-4">Queue</h1>
+                    <Table removeWrapper aria-label="Example static collection table">
+                      <TableHeader>
+                        <TableColumn>Title</TableColumn>
+                        <TableColumn>Artist</TableColumn>
+                        <TableColumn>Album</TableColumn>
+                        <TableColumn>URL</TableColumn>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow key="1">
+                          <TableCell>Tony Reichert</TableCell>
+                          <TableCell>CEO</TableCell>
+                          <TableCell>Active</TableCell>
+                          <TableCell>Active</TableCell>
+                        </TableRow>
+                        <TableRow key="2">
+                          <TableCell>Zoey Lang</TableCell>
+                          <TableCell>Technical Lead</TableCell>
+                          <TableCell>Paused</TableCell>
+                          <TableCell>Active</TableCell>
+                        </TableRow>
+                        <TableRow key="3">
+                          <TableCell>Jane Fisher</TableCell>
+                          <TableCell>Senior Developer</TableCell>
+                          <TableCell>Active</TableCell>
+                          <TableCell>Active</TableCell>
+                        </TableRow>
+                        <TableRow key="4">
+                          <TableCell>William Howard</TableCell>
+                          <TableCell>Community Manager</TableCell>
+                          <TableCell>Vacation</TableCell>
+                          <TableCell>Active</TableCell>
+                        </TableRow>
+                        <TableRow key="5">
+                          <TableCell>William Howard</TableCell>
+                          <TableCell>Community Manager</TableCell>
+                          <TableCell>Vacation</TableCell>
+                          <TableCell>Active</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
                 </div>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                  <Button color="primary">
-                    <SkipBack />
-                  </Button>
-                  <Button color="primary">
-                    <Play />
-                  </Button>
-                  <Button color="primary">
-                    <SkipForward />
-                  </Button>
-                </div>
-                <div>
-                  <Slider
-                      aria-label="Volume"
-                      size="lg"
-                      color="success"
-                      startContent={<VolumeLowIcon className="text-2xl" />}
-                      endContent={<VolumeHighIcon className="text-2xl" />}
-                      className="max-w-md"
-                      defaultValue={40}
-                  />
-                </div>
-                <Button color="primary">
-                  Radio
-                </Button>
               </CardBody>
             </Card>
           </Tab>
+
+
           <Tab key="songs" title="Songs">
-            <Card>
-              <CardBody>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                  <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname" />
-                </div>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                  <Button color="primary">
-                    Play
-                  </Button>
-                </div>
-              </CardBody>
+    <Card>
+      <CardBody>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input type="playsong" label="Play Song" placeholder="Enter URL or Songname"/>
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Button color="primary">
+            Play
+          </Button>
+        </div>
+      </CardBody>
+    </Card>
+    <Card>
+      <CardBody>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input type="addsong" label="Add Song to queue" placeholder="Enter URL or Songname"/>
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Button color="primary">
+            Add
+          </Button>
+        </div>
+      </CardBody>
             </Card>
           </Tab>
           <Tab key="playlists" title="Playlists">
@@ -195,6 +281,41 @@ export default function App()
                 </div>
               </CardBody>
             </Card>
+
+            <Table removeWrapper aria-label="Example static collection table">
+              <TableHeader>
+                <TableColumn>Title</TableColumn>
+                <TableColumn>Artist</TableColumn>
+                <TableColumn>Album</TableColumn>
+                <TableColumn>URL</TableColumn>
+              </TableHeader>
+              <TableBody>
+                <TableRow key="1">
+                  <TableCell>Tony Reichert</TableCell>
+                  <TableCell>CEO</TableCell>
+                  <TableCell>Active</TableCell>
+                  <TableCell>Active</TableCell>
+                </TableRow>
+                <TableRow key="2">
+                  <TableCell>Zoey Lang</TableCell>
+                  <TableCell>Technical Lead</TableCell>
+                  <TableCell>Paused</TableCell>
+                  <TableCell>Active</TableCell>
+                </TableRow>
+                <TableRow key="3">
+                  <TableCell>Jane Fisher</TableCell>
+                  <TableCell>Senior Developer</TableCell>
+                  <TableCell>Active</TableCell>
+                  <TableCell>Active</TableCell>
+                </TableRow>
+                <TableRow key="4">
+                  <TableCell>William Howard</TableCell>
+                  <TableCell>Community Manager</TableCell>
+                  <TableCell>Vacation</TableCell>
+                  <TableCell>Active</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </Tab>
         </Tabs>
       </div>
